@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
-export class ClientesComponent {
+export class ClientesComponent implements OnInit {
   clientes: any[] = [];
   isModalOpen: boolean = false;
   modalTitle: string = '';
@@ -23,21 +23,22 @@ export class ClientesComponent {
     direccion: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadClientes();
   }
 
-  loadClientes() {
+  loadClientes(): void {
     this.http.get('http://localhost:8095/cliente').subscribe((data: any) => {
       this.clientes = data;
     });
   }
 
-  openModal(mode: string, cliente?: any) {
+  openModal(mode: string, cliente?: any): void {
     this.isModalOpen = true;
     this.modalTitle = mode === 'create' ? 'Agregar Cliente' : 'Editar Cliente';
+
     if (mode === 'edit' && cliente) {
       this.selectedCliente = { ...cliente };
     } else {
@@ -52,11 +53,11 @@ export class ClientesComponent {
     }
   }
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpen = false;
   }
 
-  saveCliente() {
+  saveCliente(): void {
     if (this.selectedCliente.id) {
       this.http.put(`http://localhost:8095/cliente/${this.selectedCliente.id}`, this.selectedCliente).subscribe(() => {
         this.loadClientes();
@@ -70,10 +71,9 @@ export class ClientesComponent {
     }
   }
 
-  deleteCliente(id: number) {
+  deleteCliente(id: number): void {
     this.http.delete(`http://localhost:8095/cliente/${id}`).subscribe(() => {
       this.loadClientes();
     });
   }
-
 }
