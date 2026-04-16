@@ -1,19 +1,20 @@
 server:
-  port: 7070  # Este es el puerto en el que el servidor estará escuchando, en este caso, 7070.
+  port: 7070
 
 spring:
   application:
-    name: config-server  # El nombre de nuestra aplicación es "config-server".
+    name: config-server
 
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/vladimirqt233/Sistema-Venta-Libreria.git  # Esta es la URL del repositorio en GitHub donde guardamos las configuraciones.
-          searchPaths: config-data  # Dentro de ese repositorio, buscamos la carpeta "config-data" que tiene las configuraciones.
-          default-label: main  # El "master" es como el nombre de la rama donde guardamos las configuraciones principales.
+          uri: https://github.com/vladimirqt233/Sistema-Venta-Libreria.git
+          search-paths: config-data
+          default-label: main
+          clone-on-start: true
 
   security:
     user:
-      name: root  # Aquí se pone el nombre de usuario para acceder a las configuraciones.
-      password: 123456  # Y aquí la contraseña. Este es un ejemplo, pero deberías usar algo más seguro.
+      name: root
+      password: 123456

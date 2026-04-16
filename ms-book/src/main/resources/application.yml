@@ -1,20 +1,19 @@
 spring:
   application:
     name: ms-book-service
+
   profiles:
     active: development
-  config:
-    import: optional:configserver:http://root:123456@localhost:7070
-  web:
-    resources:
 
-      static-locations: file:./uploads/
+  config:
+    import: "optional:configserver:http://${CONFIG_SERVER_USER:root}:${CONFIG_SERVER_PASSWORD}@localhost:7070"
 
   datasource:
     url: jdbc:mysql://localhost:3306/ms_book
-    username: root
-    password: 123456
+    username: ${DB_USERNAME:admin123}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
