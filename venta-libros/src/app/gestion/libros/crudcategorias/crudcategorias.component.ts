@@ -27,7 +27,7 @@ export class CrudcategoriasComponent {
 
   ngOnInit() {
     this.loadCategorias();
-  }
+  }f
 
   loadCategorias() {
     this.http.get('http://localhost:8095/categoria').subscribe((data: any) => {
