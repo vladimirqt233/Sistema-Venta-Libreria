@@ -5,27 +5,27 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class NotificationService {
-  private notificationSubject = new Subject<Notification>();
+  private readonly notificationSubject = new Subject<NotificationMessage>();
   notification$ = this.notificationSubject.asObservable();
 
-  showSuccess(message: string) {
+  showSuccess(message: string): void {
     this.notificationSubject.next({ type: 'success', message });
   }
 
-  showError(message: string) {
+  showError(message: string): void {
     this.notificationSubject.next({ type: 'error', message });
   }
 
-  showInfo(message: string) {
+  showInfo(message: string): void {
     this.notificationSubject.next({ type: 'info', message });
   }
 
-  showWarning(message: string) {
+  showWarning(message: string): void {
     this.notificationSubject.next({ type: 'warning', message });
   }
 }
 
-interface Notification {
+interface NotificationMessage {
   type: 'success' | 'error' | 'info' | 'warning';
   message: string;
 }

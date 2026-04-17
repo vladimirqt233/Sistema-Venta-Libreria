@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './vendedores.component.html',
   styleUrl: './vendedores.component.css'
 })
-export class VendedoresComponent {
+export class VendedoresComponent implements OnInit {
   vendedores: any[] = [];
   isModalOpen: boolean = false;
   modalTitle: string = '';
@@ -23,21 +23,22 @@ export class VendedoresComponent {
     direccion: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadVendedores();
   }
 
-  loadVendedores() {
+  loadVendedores(): void {
     this.http.get('http://localhost:8095/vendedor').subscribe((data: any) => {
       this.vendedores = data;
     });
   }
 
-  openModal(mode: string, vendedor?: any) {
+  openModal(mode: string, vendedor?: any): void {
     this.isModalOpen = true;
     this.modalTitle = mode === 'create' ? 'Agregar Vendedor' : 'Editar Vendedor';
+
     if (mode === 'edit' && vendedor) {
       this.selectedVendedor = { ...vendedor };
     } else {
@@ -52,13 +53,13 @@ export class VendedoresComponent {
     }
   }
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpen = false;
   }
 
-  saveVendedor() {
+  saveVendedor(): void {
     if (this.selectedVendedor.id) {
-      this.http.post(`http://localhost:8095/vendedor/${this.selectedVendedor.id}`, this.selectedVendedor).subscribe(() => {
+      this.http.put(`http://localhost:8095/vendedor/${this.selectedVendedor.id}`, this.selectedVendedor).subscribe(() => {
         this.loadVendedores();
         this.closeModal();
       });
@@ -70,10 +71,9 @@ export class VendedoresComponent {
     }
   }
 
-  deleteVendedor(id: number) {
+  deleteVendedor(id: number): void {
     this.http.delete(`http://localhost:8095/vendedor/${id}`).subscribe(() => {
       this.loadVendedores();
     });
   }
-
 }

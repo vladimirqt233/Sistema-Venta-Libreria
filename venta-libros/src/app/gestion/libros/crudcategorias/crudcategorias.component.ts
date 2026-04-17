@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './crudcategorias.component.html',
   styleUrl: './crudcategorias.component.css'
 })
-export class CrudcategoriasComponent {
+export class CrudcategoriasComponent implements OnInit {
   categorias: any[] = [];
   isModalOpen: boolean = false;
   modalTitle: string = '';
@@ -21,23 +21,24 @@ export class CrudcategoriasComponent {
     formato: '',
     idioma: ''
   };
-  formatos = ['IMPRESO', 'ELECTRONICO', 'AUDIOLIBRO'];
+  formatos: string[] = ['IMPRESO', 'ELECTRONICO', 'AUDIOLIBRO'];
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCategorias();
   }
 
-  loadCategorias() {
+  loadCategorias(): void {
     this.http.get('http://localhost:8095/categoria').subscribe((data: any) => {
       this.categorias = data;
     });
   }
 
-  openModal(mode: string, categoria?: any) {
+  openModal(mode: string, categoria?: any): void {
     this.isModalOpen = true;
     this.modalTitle = mode === 'create' ? 'Agregar Categoría' : 'Editar Categoría';
+
     if (mode === 'edit' && categoria) {
       this.selectedCategoria = { ...categoria };
     } else {
@@ -51,13 +52,13 @@ export class CrudcategoriasComponent {
     }
   }
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpen = false;
   }
 
-  saveCategoria() {
+  saveCategoria(): void {
     if (this.selectedCategoria.id) {
-      this.http.post(`http://localhost:8095/categoria/${this.selectedCategoria.id}`, this.selectedCategoria).subscribe(() => {
+      this.http.put(`http://localhost:8095/categoria/${this.selectedCategoria.id}`, this.selectedCategoria).subscribe(() => {
         this.loadCategorias();
         this.closeModal();
       });
@@ -69,7 +70,7 @@ export class CrudcategoriasComponent {
     }
   }
 
-  deleteCategoria(id: number) {
+  deleteCategoria(id: number): void {
     this.http.delete(`http://localhost:8095/categoria/${id}`).subscribe(() => {
       this.loadCategorias();
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './notification.service';
 import { CommonModule } from '@angular/common';
@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.css'
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent implements OnInit, OnDestroy {
   notification: { type: string; message: string } | null = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private readonly notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.subscription = this.notificationService.notification$.subscribe((notification) => {
