@@ -14,18 +14,25 @@
 	<name>ms-config-server</name>
 	<description>ms-config-server</description>
 	<properties>
+<<<<<<< HEAD
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.2</spring-cloud.version>
 	</properties>
+=======
+    <java.version>17</java.version>
+    <spring-cloud.version>2023.0.2</spring-cloud.version>
+</properties>
+>>>>>>> 1cd9d834aa40b874d0a789838086b7d2eeaa721a
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
-		</dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+    <version>4.1.3</version> <!-- Actualiza a la versión 4.1.3 -->
+</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
