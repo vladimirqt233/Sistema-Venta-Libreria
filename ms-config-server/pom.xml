@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>3.2.4</version> <!-- Verifica que esta es la última versión estable -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -18,36 +18,46 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2023.0.2</spring-cloud.version>
+		<spring-cloud.version>2023.0.2</spring-cloud.version> <!-- Mantén esta versión de Spring Cloud -->
 	</properties>
 
 	<dependencies>
+		<!-- Dependencia de Spring Boot Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<!-- Actualización de Spring Cloud Config Server -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
-			<version>4.1.3</version> <!-- Actualiza a la versión 4.1.3 -->
+			<version>4.1.3</version> <!-- Actualización recomendada a la versión 4.1.3 -->
 		</dependency>
 
+		<!-- Dependencias de pruebas -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Dependencia de Tomcat Embed Core (Actualizar a la última versión estable) -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>10.1.34</version> <!-- Actualiza a la versión recomendada -->
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Importa las dependencias de Spring Cloud -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -60,6 +70,7 @@
 
 	<build>
 		<plugins>
+			<!-- Plugin de Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
