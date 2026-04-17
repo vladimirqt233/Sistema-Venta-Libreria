@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.10</version>
+		<version>3.5.12</version> <!-- ✅ Corrige CVE-2026-22732 -->
 		<relativePath/>
 	</parent>
 
@@ -18,23 +18,20 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2023.0.5</spring-cloud.version> <!-- ✅ Actualizado: corrige CVE-2025-22228 -->
+		<spring-cloud.version>2024.0.1</spring-cloud.version> <!-- ✅ Compatible con Boot 3.5.x -->
 	</properties>
 
 	<dependencies>
-		<!-- Spring Boot Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!-- ✅ Spring Cloud Config Server - versión manejada por el BOM, NO fijar versión manualmente -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
 
-		<!-- Dependencias de pruebas -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -46,7 +43,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- ✅ Tomcat actualizado: corrige CVE-2025-66614 -->
+		<!-- ✅ Tomcat actualizado -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
@@ -56,7 +53,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- ✅ BOM de Spring Cloud actualizado a 2023.0.5 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
