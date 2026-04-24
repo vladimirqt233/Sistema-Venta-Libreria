@@ -7,33 +7,37 @@ import com.example.msventa.feign.LibroFeign;
 import com.example.msventa.service.PdfService;
 import com.example.msventa.service.VentaService;
 import com.itextpdf.text.DocumentException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/venta")
 public class VentaController {
-    @Autowired
-    private VentaService ventaService;
-    @Autowired
-    private PdfService pdfService;
-    @Autowired
-    private LibroFeign libroFeign;
+
+    private final VentaService ventaService;
+    private final PdfService pdfService;
+    private final LibroFeign libroFeign;
+
+    public VentaController(VentaService ventaService, PdfService pdfService, LibroFeign libroFeign) {
+        this.ventaService = ventaService;
+        this.pdfService = pdfService;
+        this.libroFeign = libroFeign;
+    }
 
     @PostMapping("/realizar")
     public ResponseEntity<Venta> realizarVenta(@RequestHeader("Authorization") String token) {
         Venta nuevaVenta = ventaService.realizarVenta(token);
         return ResponseEntity.ok(nuevaVenta);
     }
+
     @GetMapping("/listar")
     public ResponseEntity<List<Venta>> listarVentas() {
         List<Venta> ventas = ventaService.listarVentas();
+
         for (Venta venta : ventas) {
             for (VentaDetalle detalle : venta.getDetalles()) {
                 ResponseEntity<LibroDto> libroResponse = libroFeign.listarLibro(detalle.getLibroId());
@@ -42,6 +46,7 @@ public class VentaController {
                 }
             }
         }
+
         return ResponseEntity.ok(ventas);
     }
 
@@ -52,25 +57,27 @@ public class VentaController {
             return ResponseEntity.notFound().build();
         }
 
-        byte[] pdfBytes = null;
         try {
-            pdfBytes = pdfService.generarReciboPdf(venta);
-        } catch (DocumentException | IOException e) {
+            byte[] pdfBytes = pdfService.generarReciboPdf(venta);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "recibo_" + id + ".pdf");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+
+        } catch (DocumentException e) {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "recibo_" + id + ".pdf");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfBytes);
     }
+
     @GetMapping("/registroVentasPdf")
     public ResponseEntity<byte[]> generarRegistroVentasPdf() {
         List<Venta> ventas = ventaService.listarVentas();
+
         for (Venta venta : ventas) {
             for (VentaDetalle detalle : venta.getDetalles()) {
                 ResponseEntity<LibroDto> libroResponse = libroFeign.listarLibro(detalle.getLibroId());
@@ -80,20 +87,20 @@ public class VentaController {
             }
         }
 
-        byte[] pdfBytes = null;
         try {
-            pdfBytes = pdfService.generarRegistroVentasPdf(ventas);
-        } catch (DocumentException | IOException e) {
+            byte[] pdfBytes = pdfService.generarRegistroVentasPdf(ventas);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "registro_ventas.pdf");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+
+        } catch (DocumentException e) {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "registro_ventas.pdf");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfBytes);
     }
 }
