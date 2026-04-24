@@ -64,7 +64,7 @@ export class BooksComponent implements OnInit {
       next: (data: Libro[]) => {
         this.books = data;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al obtener los libros:', error);
       }
     });
@@ -75,7 +75,7 @@ export class BooksComponent implements OnInit {
       next: (data: any[]) => {
         this.categorias = data;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al obtener las categorías:', error);
       }
     });
@@ -90,7 +90,7 @@ export class BooksComponent implements OnInit {
       next: (data: Libro[]) => {
         this.books = data;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al obtener los libros por categoría:', error);
       }
     });
@@ -101,7 +101,7 @@ export class BooksComponent implements OnInit {
       next: (data: Libro[]) => {
         this.books = data;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al obtener los libros por año:', error);
       }
     });
@@ -145,7 +145,7 @@ export class BooksComponent implements OnInit {
         this.notificationService.showSuccess('Libro agregado al carrito con éxito');
         this.loadCartItems();
       },
-      error: (error) => {
+      error: (error: { status?: number }) => {
         if (error.status === 401) {
           this.notificationService.showError('Debe iniciar sesión para agregar al carrito');
         } else {
@@ -192,7 +192,7 @@ export class BooksComponent implements OnInit {
         this.cartItems = data ?? [];
         this.loadBookDetails();
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al obtener los items del carrito:', error);
       }
     });
@@ -201,13 +201,13 @@ export class BooksComponent implements OnInit {
   loadBookDetails(): void {
     this.cartItems.forEach(item => {
       this.http.get<Libro>(`${this.apiUrl}/libros/${item.libroId}`).subscribe({
-        next: (bookDetails) => {
+        next: (bookDetails: Libro) => {
           item.image = bookDetails.imagenUrl;
           item.title = bookDetails.titulo;
           item.price = bookDetails.precio;
           item.description = bookDetails.autor;
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al obtener los detalles del libro:', error);
         }
       });
@@ -272,7 +272,7 @@ export class BooksComponent implements OnInit {
         link.click();
         window.URL.revokeObjectURL(url);
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al descargar el recibo:', error);
       }
     });

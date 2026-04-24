@@ -1,20 +1,19 @@
 server:
-  port: 7070
+  port: 7071
 
 spring:
   application:
     name: config-server
+  profiles:
+    active: native
 
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/vladimirqt233/Sistema-Venta-Libreria.git
-          search-paths: config-data
-          default-label: main
-          clone-on-start: true
+        native:
+          search-locations: file:../config-data,file:./config-data
 
   security:
     user:
-      name: ${CONFIG_SERVER_USER:admin123}
-      password: ${CONFIG_SERVER_PASSWORD:admin123}
+      name: ${CONFIG_SERVER_USER:root}
+      password: ${CONFIG_SERVER_PASSWORD:123456}

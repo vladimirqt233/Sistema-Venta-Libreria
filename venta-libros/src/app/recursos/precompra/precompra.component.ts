@@ -76,7 +76,7 @@ export class PrecompraComponent implements OnInit {
           this.cartItems = data ?? [];
           this.loadBookDetails();
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al obtener los items del carrito:', error);
         }
       });
@@ -97,7 +97,7 @@ export class PrecompraComponent implements OnInit {
           item.description = bookDetails.autor;
           this.calculateSubtotal();
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al obtener los detalles del libro:', error);
         }
       });
@@ -140,7 +140,7 @@ export class PrecompraComponent implements OnInit {
 
           this.router.navigate(['/']);
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al realizar la compra:', error);
         }
       });
@@ -174,7 +174,7 @@ export class PrecompraComponent implements OnInit {
           link.click();
           window.URL.revokeObjectURL(url);
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Error al descargar el recibo:', error);
         }
       });

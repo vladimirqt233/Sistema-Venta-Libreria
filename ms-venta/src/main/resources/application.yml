@@ -1,6 +1,3 @@
-server:
-  port: 8082
-
 spring:
   application:
     name: ms-venta-service
@@ -9,11 +6,11 @@ spring:
     active: development
 
   config:
-    import: "optional:configserver:http://${CONFIG_SERVER_USER}:${CONFIG_SERVER_PASSWORD}@localhost:7070"
+    import: "optional:configserver:http://${CONFIG_SERVER_USER:root}:${CONFIG_SERVER_PASSWORD}@localhost:7070"
 
   datasource:
     url: jdbc:mysql://localhost:3306/ms_venta
-    username: ${DB_USERNAME}
+    username: ${DB_USERNAME:admin123}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
