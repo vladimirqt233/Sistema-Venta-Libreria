@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.12</version>
+		<version>3.3.7</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
@@ -15,15 +15,14 @@
 	<description>ms-registry-server</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2023.0.4</spring-cloud.version>
-		<tomcat.version>10.1.33</tomcat.version>
-		<spring-security.version>6.2.8</spring-security.version>
+		<spring-cloud.version>2023.0.6</spring-cloud.version>
+		<tomcat.version>10.1.50</tomcat.version>
+		<spring-security.version>6.3.8</spring-security.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
-			<version>4.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
