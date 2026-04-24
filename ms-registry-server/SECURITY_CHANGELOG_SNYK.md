@@ -1,4 +1,4 @@
-# Evidencia de remediacion Snyk - ms-registry-server
+# Evidencia de remediacion Snyk - errores de Registry Server
 
 Fecha: 2026-04-23
 Servicio: `ms-registry-server`
@@ -108,10 +108,53 @@ Despues:
 Motivo:
 Eliminar mezcla de versiones de Spring Cloud y permitir que el BOM `2023.0.6` resuelva una version compatible.
 
+### 6. Override de jersey-client
+
+Ubicacion: `ms-registry-server/pom.xml`
+
+Antes:
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+Despues:
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>3.1.10</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+Motivo:
+Forzar que Maven resuelva `jersey-client` en una version corregida por encima de la transitiva `3.1.9` que seguia llegando desde Eureka aun despues de actualizar a `4.1.6`.
+
 ## Impacto esperado
 
 - `spring-cloud-starter-netflix-eureka-server` deja de resolverse en la linea vulnerable `4.1.4`
 - `jersey-client@3.1.9` debe dejar de aparecer en el arbol de dependencias
+- `jersey-client@3.1.10` debe pasar a ser la version efectiva
 - `tomcat-embed-core@10.1.33` debe dejar de aparecer en el arbol de dependencias y ser reemplazado por `10.1.50`
 - `spring-security-crypto@6.2.8` debe dejar de aparecer en el arbol de dependencias y ser reemplazado por `6.3.8`
 - Snyk deberia retirar los criticos asociados a esas versiones
